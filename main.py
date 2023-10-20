@@ -15,7 +15,7 @@ from api.covid import covid_api # Blueprint import api definition
 from api.joke import joke_api # Blueprint import api definition
 from api.user import user_api # Blueprint import api definition
 from api.player import player_api
-from chat import chat_api
+from api.chat import chat_api
 
 
 # setup App pages
