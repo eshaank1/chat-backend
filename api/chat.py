@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_restful import Api, Resource
 import random
+import requests  # Import the 'requests' library for making HTTP requests
 
 chat_api = Blueprint('chat_api', __name__, url_prefix='/api/chat')
 api = Api(chat_api)
@@ -23,6 +24,7 @@ class ChatAPI:
 api.add_resource(ChatAPI._Create, '/create')
 api.add_resource(ChatAPI._Read, '/read')
 
+# Integrate the chat functionality into the existing API
 if __name__ == "__main__":
     server = 'https://chat.stu.nighthawkcodingsociety.com'
     url = server + "/api/chat"
