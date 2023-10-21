@@ -1,9 +1,7 @@
-## Backend readme
+## CSP Passion Project Backend
 
-This is our CSP passion project backend, feel free to look around
+This is our CSP Passion Project Backend, feel free to look around!
 
-Group Members: Frontend: Braandon and Ninaad
-               Backend:  Eshaan and Aaron
+Group Members: Brandon, Eshaan, Aaron, and Ninaad
 
-Link to our website: https://chat.stu.nighthawkcodingsociety.com/
-
+Link to our website: https://eshaank1.github.io/chat/
