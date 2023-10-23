@@ -1,6 +1,6 @@
 import random
 
-chat_data = []
+chat_data = ["Test 1"]
 
 # Initialize chat messages
 def initChat():
