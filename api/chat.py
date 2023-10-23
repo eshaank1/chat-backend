@@ -3,6 +3,8 @@ from flask_restful import Api, Resource
 import random
 import requests  # Import the 'requests' library for making HTTP requests
 
+from model.chats import *
+
 chat_api = Blueprint('chat_api', __name__, 
                      url_prefix='/api/chats')
 api = Api(chat_api)
