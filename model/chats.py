@@ -1,6 +1,6 @@
 chat_data = [
-    {"Test 1"},
-    {"Test 2"},
+    {"message": "Test 1"},
+    {"message": "Test 2"},
 ]
 
 def getChatMessages():
