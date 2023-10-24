@@ -58,4 +58,25 @@ if __name__ == "__main__":
     # change name for testing
     from flask_cors import CORS
     cors = CORS(app)
-    app.run(debug=True, host="0.0.0.0", port="8086")
+    app.run(debug=True, host="0.0.0.0", port="8987")
+
+if __name__ == "__main__":
+    server = 'https://chat.stu.nighthawkcodingsociety.com'
+    url = server + "/api/chat"  # Update this line
+    responses = []
+    
+    sample_data = {"message": "Hello, this is a test message!"}
+    create_response = requests.post(url+"/create", json=sample_data)
+    responses.append(create_response)
+
+    # Retrieve stored data from the chat API
+    read_response = requests.get(url+"/read")
+    responses.append(read_response)
+
+    # Display responses
+    for response in responses:
+        print(response)
+        try:
+            print(response.json())
+        except:
+            print("unknown error")
