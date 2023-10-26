@@ -1,17 +1,14 @@
 from flask import Blueprint, jsonify, request
 from flask_restful import Api, Resource
-import random
-import requests  # Import the 'requests' library for making HTTP requests
+import requests 
 
 from model.chats import *
 
-chat_api = Blueprint('chat_api', __name__, 
-                     url_prefix='/api/chats')
+
+chat_api = Blueprint('chat_api', __name__, url_prefix='/api/chats')
 api = Api(chat_api)
 
-# Data storage (You can replace this with a proper database)
 chat_data = []
-
 class ChatAPI:
     class _Create(Resource):
         def post(self):
@@ -23,14 +20,12 @@ class ChatAPI:
         def get(self):
             return jsonify(chat_data)
 
-# Routes for the chat API
 api.add_resource(ChatAPI._Create, '/create')
 api.add_resource(ChatAPI._Read, '/read')
 
-# Integrate the chat functionality into the existing API
 if __name__ == "__main__":
-    server = 'https://chat.stu.nighthawkcodingsociety.com'
-    url = server + "/api/chat"
+    server = 'https://chat.nighthawkcodingsociety.com'  # Update with your server URL
+    url = server + "/api/chats"
     responses = []
 
     # Simulate sending data to the chat API
