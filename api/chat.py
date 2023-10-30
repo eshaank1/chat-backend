@@ -11,7 +11,7 @@ chat_api = Blueprint('chat_api', __name__,
             url_prefix='/api/chats')
 api = Api(chat_api)
 
-CORS(chat_api, resources={r"/api/*": {"origins": "*"}})
+# CORS(chat_api, resources={r"/api/*": {"origins": "*"}}) # uncomment this line for local testing
 
 chat_data = []
 
