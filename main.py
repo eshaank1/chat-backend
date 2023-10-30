@@ -54,6 +54,7 @@ def activate_job():  # activate these items
     # initUsers()
     # initPlayers()
     
+    
 
 
 # this runs the application on the development server

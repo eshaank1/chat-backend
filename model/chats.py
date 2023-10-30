@@ -1,6 +1,6 @@
-# chat_model.py
+import requests
 class ChatModel:
-    chat_data = []  # Data storage (You can replace this with a proper database)
+    chat_data = ["Test 1"]  # Data storage (You can replace this with a proper database)
 
     @classmethod
     def create_chat(cls, data):
@@ -10,4 +10,7 @@ class ChatModel:
     @classmethod
     def read_chat(cls):
         return cls.chat_data
+
+
+
 
