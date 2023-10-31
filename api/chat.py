@@ -8,8 +8,10 @@ import os
 from model.chats import *
 
 chat_api = Blueprint('chat_api', __name__,
-            url_prefix='/api/chats')
+                    url_prefix='/api/chats')
 api = Api(chat_api)
+
+cors = CORS(app, resources={r"/api/*": {"origins": "https://eshaank1.github.io"}})
 
 # CORS(chat_api, resources={r"/api/*": {"origins": "*"}}) # uncomment this line for local testing
 
