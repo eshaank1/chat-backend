@@ -1,75 +1,65 @@
-from flask import Flask, request, jsonify
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask import Blueprint, request, jsonify
+from flask_restful import Api, Resource
+from flask_cors import CORS
 
-app = Flask(__name__)
-app.config['JWT_SECRET_KEY'] = 'super-secret'  # Change this to a strong secret key
-jwt = JWTManager(app)
+discussion_api = Blueprint('discussion_api', __name__, url_prefix='/api/discussions')
+api = Api(discussion_api)
+CORS(discussion_api, resources={r"/api/*": {"origins": "*"}})
 
-# Sample data for discussions, posts, and comments
+# Sample data
 discussions = []
 posts = []
 comments = []
 
-# Sample user data (you would typically use a database)
-users = [
-    {"username": "user1", "password": "password1"},
-    {"username": "user2", "password": "password2"}
-]
-
-# API route to create a new discussion
-@app.route('/discussions', methods=['POST'])
-@jwt_required
-def create_discussion():
-    data = request.get_json()
-    if 'title' in data:
-        new_discussion = {
-            'title': data['title'],
-            'created_by': get_jwt_identity()  # Get the current user from the JWT token
-        }
-        discussions.append(new_discussion)
-        return jsonify({'message': 'Discussion created successfully'}), 201
-    return jsonify({'message': 'Invalid data'}), 400
-
-# API route to get all discussions
-@app.route('/discussions', methods=['GET'])
-def get_discussions():
-    return jsonify(discussions)
-
-# API route to create a new post in a discussion
-@app.route('/discussions/<discussion_title>/posts', methods=['POST'])
-@jwt_required
-def create_post(discussion_title):
-    data = request.get_json()
-    if 'content' in data:
-        new_post = {
-            'discussion_title': discussion_title,
-            'content': data['content'],
-            'created_by': get_jwt_identity()
-        }
-        posts.append(new_post)
-        return jsonify({'message': 'Post created successfully'}), 201
-    return jsonify({'message': 'Invalid data'}), 400
-
-# API route to get all posts in a discussion
-@app.route('/discussions/<discussion_title>/posts', methods=['GET'])
-def get_posts_in_discussion(discussion_title):
-    discussion_posts = [post for post in posts if post['discussion_title'] == discussion_title]
-    return jsonify(discussion_posts)
-
-# API route to add a comment to a post
-@app.route('/discussions/<discussion_title>/posts/<int:post_id>/comments', methods=['POST'])
-@jwt_required
-def add_comment(discussion_title, post_id):
-    data = request.get_json()
-    if 'content' in data:
-        post = next((post for post in posts if post['discussion_title'] == discussion_title and post['post_id'] == post_id), None)
-        if post:
-            new_comment = {
-                'content': data['content'],
-                'created_by': get_jwt_identity()
+class DiscussionAPI:
+    class CreateDiscussion(Resource):
+        def post(self):
+            data = request.json
+            discussion = {
+                'title': data.get('title'),
+                'posts': []  # Store posts related to this discussion
             }
-            comments.append(new_comment)
-            return jsonify({'message': 'Comment added successfully'}), 201
-    return jsonify({'message': 'Invalid data'}), 400
-if __name__ == '__main__':
+            discussions.append(discussion)
+            return jsonify({"message": "Discussion created successfully"})
+
+    class ListDiscussions(Resource):
+        def get(self):
+            return jsonify(discussions)
+
+    class CreatePost(Resource):
+        def post(self, discussion_id):
+            data = request.json
+            post = {
+                'content': data.get('content'),
+                'comments': []  # Store comments related to this post
+            }
+            discussion = next((d for d in discussions if d['title'] == discussion_id), None)
+            if discussion:
+                discussion['posts'].append(post)
+                posts.append(post)
+                return jsonify({"message": "Post created successfully"})
+            return jsonify({"message": "Discussion not found"}, 404)
+
+    class CreateComment(Resource):
+        def post(self, discussion_id, post_id):
+            data = request.json
+            comment = {
+                'content': data.get('content')
+            }
+            discussion = next((d for d in discussions if d['title'] == discussion_id), None)
+            if discussion:
+                post = next((p for p in discussion['posts'] if p == post_id), None)
+                if post:
+                    post['comments'].append(comment)
+                    comments.append(comment)
+                    return jsonify({"message": "Comment created successfully"})
+            return jsonify({"message": "Discussion or post not found"}, 404)
+
+api.add_resource(DiscussionAPI.CreateDiscussion, '/create')
+api.add_resource(DiscussionAPI.ListDiscussions, '/list')
+api.add_resource(DiscussionAPI.CreatePost, '/<string:discussion_id>/create')
+api.add_resource(DiscussionAPI.CreateComment, '/<string:discussion_id>/<string:post_id>/comment')
+
+if __name__ == "__main__":
+    # Run the Flask app
     app.run(debug=True)
