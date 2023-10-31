@@ -43,7 +43,7 @@ api.add_resource(ChatAPI._Test, '/test')
 
 if __name__ == "__main__":
     # server = "http://127.0.0.1:8987" # run local
-    server = 'https://chat.stu.nighthawkcodingsociety.com/'  # Update with your server URL
+    server = 'https://chat.stu.nighthawkcodingsociety.com'  # Update with your server URL
     url = server + "/api/chats"
     responses = []
 
