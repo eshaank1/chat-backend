@@ -34,11 +34,10 @@ class ChatAPI:
     class _Read(Resource):
         def get(self):
             return jsonify(chat_data)
-
-
-api.add_resource(ChatAPI._Create, '/create')
-api.add_resource(ChatAPI._Read, '/read')
-api.add_resource(ChatAPI._Test, '/test')
+        
+    api.add_resource(_Create, '/create')
+    api.add_resource(_Read, '/read')
+    api.add_resource(_Test, '/test')
 
 
 if __name__ == "__main__":
