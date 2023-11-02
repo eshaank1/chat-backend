@@ -23,9 +23,11 @@ class ChatAPI:
         
     class _Create(Resource):
         def get(self):
-            return jsonify({"message": "This is the GET request for _Creatin"})
+            print("Debug Test2")
+            return jsonify({"message": "This is the GET request for _Create"})
 
         def post(self):
+            print("Debug Test1")
             data = request.json
             createChat(data)
             #chat_data.append(data)
@@ -34,6 +36,7 @@ class ChatAPI:
 
     class _Read(Resource):
         def get(self):
+            print("Debug Test")
             return jsonify(readChat())
 
 
