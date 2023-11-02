@@ -13,7 +13,7 @@ api = Api(chat_api)
 
 CORS(chat_api, resources={r"/api/*": {"origins": "*"}}) # uncomment this line for local testing
 
-chat_data = []
+chat_data = ['this is a test']
 
 class ChatAPI:
     class _Test(Resource):
