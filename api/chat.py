@@ -34,7 +34,7 @@ class ChatAPI:
 
     class _Read(Resource):
         def get(self):
-            return jsonify(readChat)
+            return jsonify(readChat())
 
 
 api.add_resource(ChatAPI._Create, '/create')
