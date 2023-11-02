@@ -1,65 +1,62 @@
-from flask import Blueprint, request, jsonify
-from flask_restful import Api, Resource
+from flask import Blueprint, request, jsonify  
+from flask_restful import Api, Resource 
 from flask_cors import CORS
+import requests  
+from model.discussions import *
 
-discussion_api = Blueprint('discussion_api', __name__, url_prefix='/api/discussions')
+discussion_api = Blueprint('discussion_api', __name__,
+            url_prefix='/api/discussion')
 api = Api(discussion_api)
-CORS(discussion_api, resources={r"/api/*": {"origins": "*"}})
 
-# Sample data
-discussions = []
-posts = []
-comments = []
+CORS(discussion_api, resources={r"/api/discussion/create": {"origins": "https://eshaank1.github.io"}})
 
-class DiscussionAPI:
-    class CreateDiscussion(Resource):
+discussion_data = []
+
+class discussionAPI:
+    class _Test(Resource):
+        def get(self):
+            response = jsonify({"Connection Test": "Successfully connected to backend!"})
+            return response
+        
+    class _Create(Resource):
+        def get(self):
+            return jsonify({"message": "This is the GET request for _Create"})
+
         def post(self):
             data = request.json
-            discussion = {
-                'title': data.get('title'),
-                'posts': []  # Store posts related to this discussion
-            }
-            discussions.append(discussion)
-            return jsonify({"message": "Discussion created successfully"})
+            discussion_data.append(data)
+            return jsonify({"message": "Data stored successfully!"})
 
-    class ListDiscussions(Resource):
+
+    class _Read(Resource):
         def get(self):
-            return jsonify(discussions)
+            return jsonify(discussion_data)
 
-    class CreatePost(Resource):
-        def post(self, discussion_id):
-            data = request.json
-            post = {
-                'content': data.get('content'),
-                'comments': []  # Store comments related to this post
-            }
-            discussion = next((d for d in discussions if d['title'] == discussion_id), None)
-            if discussion:
-                discussion['posts'].append(post)
-                posts.append(post)
-                return jsonify({"message": "Post created successfully"})
-            return jsonify({"message": "Discussion not found"}, 404)
 
-    class CreateComment(Resource):
-        def post(self, discussion_id, post_id):
-            data = request.json
-            comment = {
-                'content': data.get('content')
-            }
-            discussion = next((d for d in discussions if d['title'] == discussion_id), None)
-            if discussion:
-                post = next((p for p in discussion['posts'] if p == post_id), None)
-                if post:
-                    post['comments'].append(comment)
-                    comments.append(comment)
-                    return jsonify({"message": "Comment created successfully"})
-            return jsonify({"message": "Discussion or post not found"}, 404)
+api.add_resource(discussionAPI._Create, '/create')
+api.add_resource(discussionAPI._Read, '/read')
+api.add_resource(discussionAPI._Test, '/test')
 
-api.add_resource(DiscussionAPI.CreateDiscussion, '/create')
-api.add_resource(DiscussionAPI.ListDiscussions, '/list')
-api.add_resource(DiscussionAPI.CreatePost, '/<string:discussion_id>/create')
-api.add_resource(DiscussionAPI.CreateComment, '/<string:discussion_id>/<string:post_id>/comment')
 
 if __name__ == "__main__":
-    # Run the Flask app
-    app.run(debug=True)
+    # server = "http://127.0.0.1:8987" # run local
+    server = 'https://chat.stu.nighthawkcodingsociety.com'  # Update with your server URL
+    url = server + "/api/discussions"
+    responses = []
+
+    # Simulate sending data to the discussion API
+    sample_data = {"message": "Hello, this is a test message!"}
+    create_response = requests.post(url+"/create", json=sample_data)
+    responses.append(create_response)
+
+    # Retrieve stored data from the discussion API
+    read_response = requests.get(url+"/read")
+    responses.append(read_response)
+
+    # Display responses
+    for response in responses:
+        print(response)
+        try:
+            print(response.json())
+        except:
+            print("unknown error")
