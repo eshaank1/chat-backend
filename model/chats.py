@@ -1,6 +1,6 @@
 import requests
 
-chat_data = []  # Data storage (You can replace this with a proper database)
+chat_data = [Test1 Data]  # Data storage (You can replace this with a proper database)
 
 def createChat(chatMsg):
     chat_data.append(chatMsg)
