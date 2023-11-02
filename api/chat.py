@@ -8,7 +8,7 @@ chat_api = Blueprint('chat_api', __name__,
             url_prefix='/api/chats')
 api = Api(chat_api)
 
-CORS(chat_api, resources={r"/api/*": {"origins": "https://eshaank1.github.io"}})
+CORS(chat_api, resources={r"/api/chats/create": {"origins": "https://eshaank1.github.io"}})
 
 chat_data = []
 
