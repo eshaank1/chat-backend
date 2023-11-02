@@ -2,17 +2,17 @@ from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource 
 from flask_cors import CORS
 import requests  
-from model.discussions import *
+from model.chats import *
 
-discussion_api = Blueprint('discussion_api', __name__,
+chat_api = Blueprint('chat_api', __name__,
             url_prefix='/api/discussion')
-api = Api(discussion_api)
+api = Api(chat_api)
 
-CORS(discussion_api, resources={r"/api/discussion/create": {"origins": "https://eshaank1.github.io"}})
+CORS(chat_api, resources={r"/api/discussion/create": {"origins": "https://eshaank1.github.io"}})
 
-discussion_data = []
+chat_data = []
 
-class discussionAPI:
+class chatAPI:
     class _Test(Resource):
         def get(self):
             response = jsonify({"Connection Test": "Successfully connected to backend!"})
@@ -24,32 +24,32 @@ class discussionAPI:
 
         def post(self):
             data = request.json
-            discussion_data.append(data)
+            chat_data.append(data)
             return jsonify({"message": "Data stored successfully!"})
 
 
     class _Read(Resource):
         def get(self):
-            return jsonify(discussion_data)
+            return jsonify(chat_data)
 
 
-api.add_resource(discussionAPI._Create, '/create')
-api.add_resource(discussionAPI._Read, '/read')
-api.add_resource(discussionAPI._Test, '/test')
+api.add_resource(chatAPI._Create, '/create')
+api.add_resource(chatAPI._Read, '/read')
+api.add_resource(chatAPI._Test, '/test')
 
 
 if __name__ == "__main__":
     # server = "http://127.0.0.1:8987" # run local
     server = 'https://chat.stu.nighthawkcodingsociety.com'  # Update with your server URL
-    url = server + "/api/discussions"
+    url = server + "/api/discussion"
     responses = []
 
-    # Simulate sending data to the discussion API
+    # Simulate sending data to the chat API
     sample_data = {"message": "Hello, this is a test message!"}
     create_response = requests.post(url+"/create", json=sample_data)
     responses.append(create_response)
 
-    # Retrieve stored data from the discussion API
+    # Retrieve stored data from the chat API
     read_response = requests.get(url+"/read")
     responses.append(read_response)
 
