@@ -27,12 +27,14 @@ class ChatAPI:
 
         def post(self):
             data = request.json
+            data = data + 'this is a test'
             chat_data.append(data)
             return jsonify({"message": "Data stored successfully!"})
 
 
     class _Read(Resource):
         def get(self):
+            chat_data = chat_data + 'this is a test'
             return jsonify(chat_data)
 
 
