@@ -23,7 +23,7 @@ class ChatAPI:
         
     class _Create(Resource):
         def get(self):
-            return jsonify({"message": "This is the GET request for _Create"})
+            return jsonify({"message": "This is the GET request for _Creating"})
 
         def post(self):
             data = request.json
