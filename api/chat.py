@@ -34,7 +34,9 @@ class ChatAPI:
 
     class _Read(Resource):
         def get(self):
-            return jsonify(readChat())
+            response = jsonify({"Read": "Successfully read from backend!"})
+            return response
+            #return jsonify(readChat())
 
 
 api.add_resource(ChatAPI._Create, '/create')
