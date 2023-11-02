@@ -2,9 +2,6 @@ from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource 
 from flask_cors import CORS
 import requests  
-import random
-import os
-
 from model.chats import *
 
 chat_api = Blueprint('chat_api', __name__,
@@ -13,7 +10,7 @@ api = Api(chat_api)
 
 CORS(chat_api, resources={r"/api/*": {"origins": "*"}}) # uncomment this line for local testing
 
-#chat_data = []
+chat_data = []
 
 class ChatAPI:
     class _Test(Resource):
@@ -27,16 +24,13 @@ class ChatAPI:
 
         def post(self):
             data = request.json
-            createChat(data)
-            #chat_data.append(data)
+            chat_data.append(data)
             return jsonify({"message": "Data stored successfully!"})
 
 
     class _Read(Resource):
         def get(self):
-            response = jsonify({"Read": "Successfully read from backend!"})
-            return response
-            #return jsonify(readChat())
+            return jsonify(chat_data)
 
 
 api.add_resource(ChatAPI._Create, '/create')
