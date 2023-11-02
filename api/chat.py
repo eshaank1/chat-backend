@@ -13,7 +13,7 @@ api = Api(chat_api)
 
 CORS(chat_api, resources={r"/api/*": {"origins": "*"}}) # uncomment this line for local testing
 
-chat_data = ['this is a test']
+chat_data = []
 
 class ChatAPI:
     class _Test(Resource):
@@ -27,14 +27,12 @@ class ChatAPI:
 
         def post(self):
             data = request.json
-            data = data + 'this is a test'
             chat_data.append(data)
             return jsonify({"message": "Data stored successfully!"})
 
 
     class _Read(Resource):
         def get(self):
-            chat_data = chat_data + 'this is a test'
             return jsonify(chat_data)
 
 
